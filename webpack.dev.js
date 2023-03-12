@@ -6,8 +6,13 @@ module.exports = merge(common, {
     mode: 'development',
     devtool: 'inline-source-map', //original: inline-source-map
     devServer: {
-        static: './dist',
+        static: '/dist',
         hot: true, // what is hot??
+        port:"5012",
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/javascript"
+        },
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
