@@ -12,7 +12,7 @@ module.exports = {
         }),      
         new HtmlWebpackPlugin({
         title: 'Production',
-        template: 'public/index.html',
+        template: './public/index.html',
         filename: 'index.html'
         }),
         new webpack.DefinePlugin({
@@ -20,9 +20,8 @@ module.exports = {
         }),
     ],
     output: {
-        filename: './src/index.js',
-        path: path.resolve(__dirname, 'dist'), //output path is dist
-        publicPath: '/',
+        filename: 'index.bundle.js',
+        path: __dirname + '/dist', //output path is dist
     },
     resolve: {
         modules: [path.resolve(__dirname, './src'), 'node_modules'],
@@ -44,7 +43,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        presets: ['@babel/preset-env', '@babel/preset-react','@babel/preset-typescript'],
                     },
                 },
             },
