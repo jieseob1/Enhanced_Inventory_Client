@@ -7,7 +7,7 @@ import Home from '../Home'
 const Root = () => {
     return (
         <Routes>
-            <Route path='/' Component={Home} />
+            <Route path='/' element={<Home />} />
         </Routes>
     )
 }
