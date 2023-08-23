@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/jieseob1/Enhanced_Inventory_Client#readme",
   "devDependencies": {
-    "@types/react-dom": "^18.0.11",
+    "@types/react-dom": "^18.0.0",
+    "@types/styled-components": "^5.1.26",
     "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.36.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -50,13 +51,14 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@shopify/polaris": "^11.11.0",
+    "@types/react": "^18.0.0",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-prop-types": "^0.4.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.15.0",
-    "styled-components": "^5.3.6",
+    "styled-components": "^5.3.11",
     "typescript": "^5.1.6"
   }
 }

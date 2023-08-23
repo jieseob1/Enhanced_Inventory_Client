@@ -39,7 +39,7 @@ const LoginPage = () => {
       <FormLayout>
         {/* <TextField />
         <TextField /> */}
-        <Button disabled={mutation.isLoading}>Login</button>
+        <Button disabled={mutation.isLoading}>Login</Button>
         {/* {mutation.isError ? <div>An error occurred: {mutation.error.message}</div> : null} */}
       </FormLayout>
     </Form>

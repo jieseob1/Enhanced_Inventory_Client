@@ -3,18 +3,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: "development",
-    entry: "./src/index.ts",
+    entry: "./src/client/index.tsx",
     devtool: "inline-source-map",
     devServer: {
-      static: path.join(__dirname, 'dist'),
-      compress: true,
-      port: 3000
+        static: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 3000
     },
     plugins: [
-      new HtmlWebpackPlugin({
-          title: 'ERP',
-          template: './public/index.html'
-      }),
+        new HtmlWebpackPlugin({
+            title: 'ERP',
+            template: './public/index.html'
+        }),
     ],
     module: {
         rules: [
