@@ -18,31 +18,31 @@ const login = async (credentials: Credentials) => {
 };
 
 const LoginPage = () => {
-  // const queryClient = useQueryClient(); // cache value
+  const queryClient = useQueryClient(); // cache value
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  // const mutation = useMutation(login, {
-  //   onSuccess: (data) => {
-  //     queryClient.invalidateQueries('user');
-  //     // save token, redirect
-  //   },
-  // });
+  const mutation = useMutation(login, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('user');
+      // save token, redirect
+    },
+  });
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   mutation.mutate({ email, password });
-  // };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate({ email, password });
+  };
 
   return (
-    // <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <FormLayout>
         {/* <TextField />
         <TextField /> */}
-        <Button>Login</Button>
+        <Button disabled={mutation.isLoading}>Login</Button>
         {/* {mutation.isError ? <div>An error occurred: {mutation.error.message}</div> : null} */}
       </FormLayout>
-    // </Form>
+    </Form>
   );
 };
 
