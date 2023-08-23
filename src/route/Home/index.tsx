@@ -1,6 +1,8 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import Login from '../Login';
+import { Button } from '@shopify/polaris';
+import { Link } from 'react-router-dom';
 const Home = () => {
     return (
         <>
@@ -10,6 +12,7 @@ const Home = () => {
             <div>
                 아니 왜 안되냐규ㅜ
             </div>
+            <Link to={"/login"}>login page</Link>
         </>
     )
 };

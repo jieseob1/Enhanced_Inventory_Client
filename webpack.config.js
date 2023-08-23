@@ -4,6 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: "development",
     entry: "./src/client/index.tsx",
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'index_bundle.js',
+        publicPath: '/'
+    },
     devtool: "inline-source-map",
     devServer: {
         static: path.join(__dirname, 'dist'),
@@ -29,7 +34,7 @@ module.exports = {
         extensions: [".tsx", ".ts", ".js"],
     },
     output: {
-        filename: "bundle.js",
+        filename: "index_bundle.js",
         path: path.resolve(__dirname, "dist"),
     },
 }

@@ -2,7 +2,7 @@
 // import { BrowserTracing } from '@sentry/tracing';
 import React from 'react';
 import ReactDOM from "react-dom/client";
-
+import { AppProvider } from '@shopify/polaris';
 // import AppProvider from 'components/AppProvider';
 // import RelayProvider from 'components/RelayProvider';
 import Suspense from '../components/Suspense';
@@ -32,8 +32,27 @@ if (!rootElement) throw new Error('Failed to find the root element');
 const root = ReactDOM.createRoot(rootElement);
 
 root.render(
-  <Suspense>
-    <App />
-  </Suspense>
+  <AppProvider //Fix this Later
+    i18n={{
+      Polaris: {
+        ResourceList: {
+          sortingLabel: 'Sort by',
+          defaultItemSingular: 'item',
+          defaultItemPlural: 'items',
+          showing: 'Showing {itemsCount} {resource}',
+          Item: {
+            viewItem: 'View details for {itemName}',
+          },
+        },
+        Common: {
+          checkbox: 'checkbox',
+        },
+      },
+    }}
+  >
+    <Suspense>
+      <App />
+    </Suspense>
+  </AppProvider>
 );
 
