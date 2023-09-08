@@ -11,6 +11,10 @@
         "noImplicitAny": true,
         "esModuleInterop": true,
         "allowJs": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["src/*"]
+        }
     },
     "exclude": ["node_modules"],
     "include": ["src/**/*.ts", "src/**/*.tsx", "src/index.ts"]

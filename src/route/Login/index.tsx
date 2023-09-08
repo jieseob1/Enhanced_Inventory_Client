@@ -34,11 +34,27 @@ const LoginPage = () => {
     mutation.mutate({ email, password });
   };
 
+  const handleEmailChange = (value: string) => {
+    setEmail(value);  
+  };
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);  
+  };
   return (
     <Form onSubmit={handleSubmit}>
       <FormLayout>
-        {/* <TextField />
-        <TextField /> */}
+        <TextField
+          label="Email"
+          value={email}
+          onChange={handleEmailChange}
+          autoComplete="off"
+        />
+        <TextField
+          label="Password"
+          value={password}
+          onChange={handlePasswordChange}
+          autoComplete="off"
+        />
         <Button disabled={mutation.isLoading}>Login</Button>
         {/* {mutation.isError ? <div>An error occurred: {mutation.error.message}</div> : null} */}
       </FormLayout>

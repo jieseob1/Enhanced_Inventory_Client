@@ -33,22 +33,7 @@ const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <AppProvider //Fix this Later
-    i18n={{
-      Polaris: {
-        ResourceList: {
-          sortingLabel: 'Sort by',
-          defaultItemSingular: 'item',
-          defaultItemPlural: 'items',
-          showing: 'Showing {itemsCount} {resource}',
-          Item: {
-            viewItem: 'View details for {itemName}',
-          },
-        },
-        Common: {
-          checkbox: 'checkbox',
-        },
-      },
-    }}
+    i18n={{}}
   >
     <Suspense>
       <App />
