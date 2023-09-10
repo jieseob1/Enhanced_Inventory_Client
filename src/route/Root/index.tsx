@@ -8,7 +8,6 @@ import AuthRoutes from '../AuthRoutes';
 const Root = () => {
     return (
         <Routes>
-            <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
         </Routes>
     )
