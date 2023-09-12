@@ -7,10 +7,13 @@ import Login from '../Login';
 
 // ====
 
-const AuthRoutes = () => (
-  <Routes>
-    <Route path='/login' element={<Login />} />
-  </Routes>
-);
+const AuthRoutes = () => {
+  console.log("AuthRoutes")
+  return (
+    <Routes>
+      <Route path='/login' element={<Login />} />
+    </Routes>
+  )
+};
 
 export default AuthRoutes;

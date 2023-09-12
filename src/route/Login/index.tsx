@@ -5,8 +5,11 @@ import axios from 'axios';
 import Form from '../../components/Form';
 import FormLayout from '../../components/FormLayout';
 import Button from '../../components/Button';
-import TextField from '../../components/TextField';
-
+// import TextField from '../../components/TextField';
+import { Card, TextField } from '@shopify/polaris';
+import styled from 'styled-components';
+import Box from '../../components/Box';
+import Divider from '../../components/Divider';
 interface Credentials {
   email: string;
   password: string;
@@ -16,6 +19,36 @@ const login = async (credentials: Credentials) => {
   const response = await axios.post('/api/login', credentials);
   return response.data;
 };
+
+const Root = styled.div`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+`;
+const LoginSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+const LoginBox = styled.div`
+  display: flex;
+  align-items: center;
+  height: 300px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledTextField = styled(TextField)`
+    border-radius: 50px !important;
+  background-color: red !important;
+  color: green !important;
+`;
+
 
 const LoginPage = () => {
   const queryClient = useQueryClient(); // cache value
@@ -29,7 +62,7 @@ const LoginPage = () => {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutation.mutate({ email, password });
   };
@@ -41,24 +74,35 @@ const LoginPage = () => {
     setPassword(value);  
   };
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormLayout>
-        <TextField
-          label="Email"
-          value={email}
-          onChange={handleEmailChange}
-          autoComplete="off"
-        />
-        <TextField
-          label="Password"
-          value={password}
-          onChange={handlePasswordChange}
-          autoComplete="off"
-        />
-        <Button disabled={mutation.isLoading}>Login</Button>
-        {/* {mutation.isError ? <div>An error occurred: {mutation.error.message}</div> : null} */}
-      </FormLayout>
-    </Form>
+    <Root>
+      <LoginSection>
+        <LoginBox>
+          <Form onSubmit={handleSubmit}>
+            <FormLayout>
+              <StyledTextField
+                label="Email"
+                value={email}
+                onChange={handleEmailChange}
+                autoComplete="email"
+              />
+              <TextField
+                label="Password"
+                value={password}
+                onChange={handlePasswordChange}
+                autoComplete="password"
+              />
+              <Button 
+                submit
+                disabled={mutation.isLoading}
+              >
+                Login
+              </Button>
+              {/* {mutation.isError ? <div>An error occurred: {mutation.error.message}</div> : null} */}
+            </FormLayout>
+          </Form>
+        </LoginBox>
+      </LoginSection>
+    </Root>
   );
 };
 

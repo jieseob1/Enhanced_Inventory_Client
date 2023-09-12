@@ -11,10 +11,11 @@ module.exports = {
     },
     devtool: "inline-source-map",
     devServer: {
-        static: path.join(__dirname, 'public'),
+        static: path.join(__dirname, 'dist'),
         compress: true,
-        port: 3000,
-        historyApiFallback: true
+        port: 3001,
+        historyApiFallback: true,
+        hot: true
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -28,6 +29,14 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: "ts-loader",
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.css?$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.scss?$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
             },
         ],
     },

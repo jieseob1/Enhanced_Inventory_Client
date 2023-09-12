@@ -9,6 +9,7 @@ import Suspense from '../components/Suspense';
 // import config from 'config';
 // import RelayEnvironment from 'relay/environment';
 import App from '../App';
+import '@shopify/polaris/build/esm/styles.css';
 // import GlobalStyle from 'styles/global';
 // import theme from 'styles/theme';
 
