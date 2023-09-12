@@ -5,8 +5,7 @@ import axios from 'axios';
 import Form from '../../components/Form';
 import FormLayout from '../../components/FormLayout';
 import Button from '../../components/Button';
-// import TextField from '../../components/TextField';
-import { Card, TextField } from '@shopify/polaris';
+import TextField from '../../components/TextField';
 import styled from 'styled-components';
 import Box from '../../components/Box';
 import Divider from '../../components/Divider';
@@ -14,11 +13,6 @@ interface Credentials {
   email: string;
   password: string;
 }
-
-const login = async (credentials: Credentials) => {
-  const response = await axios.post('/api/login', credentials);
-  return response.data;
-};
 
 const Root = styled.div`
   width: 100%;
@@ -43,12 +37,11 @@ const LoginBox = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const StyledTextField = styled(TextField)`
-    border-radius: 50px !important;
-  background-color: red !important;
-  color: green !important;
-`;
 
+const login = async (credentials: Credentials) => {
+  const response = await axios.post('/api/login', credentials);
+  return response.data;
+};
 
 const LoginPage = () => {
   const queryClient = useQueryClient(); // cache value
@@ -59,6 +52,9 @@ const LoginPage = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries('user');
       // save token, redirect
+      // localStorage.setItem('token', data.token);
+      // 리다이렉트 로직, 예를 들면:
+      // history.push('/dashboard');
     },
   });
 
@@ -79,7 +75,7 @@ const LoginPage = () => {
         <LoginBox>
           <Form onSubmit={handleSubmit}>
             <FormLayout>
-              <StyledTextField
+              <TextField
                 label="Email"
                 value={email}
                 onChange={handleEmailChange}

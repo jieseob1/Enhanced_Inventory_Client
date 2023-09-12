@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation';
 import Frame from '../components/Frame';
 import AuthRoutes from "../route/AuthRoutes";
 import MainRoutes from "../route/MainRoutes";
+import ArrowLeftMinor from '../icons/ArrowLeftMinor';
 import HomeMinor from '../icons/HomeMinor';
 import OrdersMinor from '../icons/OrdersMinor';
 import ProductsMinor from '../icons/ProductsMinor';
@@ -18,36 +19,37 @@ const Root = styled.div`
   height: 100%;
 `;
 
-// const navigationMarkup = (
-//   <Navigation location="/">
-//     <Navigation.Section
-//         items={[
-//           {
-//             label: 'Back to Shopify',
-//             // icon: ArrowLeftMinor
-//             icon: HomeMinor
-//           },
-//         ]}
-//       />
-//   </Navigation>
-// )
+const navigationMarkup = (
+  <Navigation location="/">
+    <Navigation.Section
+        items={[
+          {
+            label: 'Back to Dashboard',
+            icon: ArrowLeftMinor
+          },
+        ]}
+      />
+  </Navigation>
+)
 const App: React.FC = () => {
   return (
     <Root>
       <QueryClientProvider client={queryClient}>
-          <Frame>
-            <Router>
-              <Routes>
-                <Route element={<AuthRoutes />} />
-                <Route
-                  path="*"
-                  element={                    
-                      <MainRoutes />
-                  }
-                />
-              </Routes>
-            </Router>
-          </Frame>
+        <Router>
+          <Routes>
+            <Route element={<AuthRoutes />} />
+            <Route
+              path="*"
+              element={                    
+                  <Frame
+                    navigation={navigationMarkup}
+                  >
+                    <MainRoutes />
+                  </Frame>
+              }
+            />
+          </Routes>
+        </Router>
     </QueryClientProvider>
   </Root>
   )
