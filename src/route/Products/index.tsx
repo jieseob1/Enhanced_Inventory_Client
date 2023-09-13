@@ -7,24 +7,24 @@ import IndexFilters from '../../components/IndexFilters';
 import Badge from '../../components/Badge';
 import ChoiceList from '../../components/ChoiceList';
 
-function disambiguateLabel(key, value) {
+function disambiguateLabel(key: any, value:any) {
   switch (key) {
     case "type":
-      return value.map((val) => `type: ${val}`).join(", ");
+      return value.map((val:any) => `type: ${val}`).join(", ");
     case "status":
-      return value.map((val) => `status: ${val}`).join(", ");
+      return value.map((val:any) => `status: ${val}`).join(", ");
     default:
       return value;
   }
 }
-function isEmpty(value) {
+function isEmpty(value:any) {
   if (Array.isArray(value)) {
     return value.length === 0;
   } else {
     return value === "" || value == null;
   }
 }
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = (ms:any) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Products = () => {
   const [itemStrings, setItemStrings] = useState([
@@ -33,13 +33,13 @@ const Products = () => {
     "Draft",
     "Archived",
   ]);
-  const deleteView = (index) => {
+  const deleteView = (index:any) => {
     const newItemStrings = [...itemStrings];
     newItemStrings.splice(index, 1);
     setItemStrings(newItemStrings);
     setSelected(0);
   };
-  const duplicateView = async (name) => {
+  const duplicateView = async (name:any) => {
     setItemStrings([...itemStrings, name]);
     setSelected(itemStrings.length);
     await sleep(1);
@@ -58,21 +58,21 @@ const Products = () => {
             {
               type: "rename",
               onAction: () => {},
-              onPrimaryAction: async (value) => {
-                const newItemsStrings = tabs.map((item, idx) => {
-                  if (idx === index) {
-                    return value;
-                  }
-                  return item.content;
-                });
-                await sleep(1);
-                setItemStrings(newItemsStrings);
-                return true;
-              },
+              // onPrimaryAction: async (value:any) => {
+              //   const newItemsStrings = tabs.map((item, idx) => {
+              //     if (idx === index) {
+              //       return value;
+              //     }
+              //     return item.content;
+              //   });
+              //   await sleep(1);
+              //   setItemStrings(newItemsStrings);
+              //   return true;
+              // },
             },
             {
               type: "duplicate",
-              onPrimaryAction: async (name) => {
+              onPrimaryAction: async (name:any) => {
                 await sleep(1);
                 duplicateView(name);
                 return true;
@@ -92,7 +92,7 @@ const Products = () => {
           ],
   }));
   const [selected, setSelected] = useState(0);
-  const onCreateNewView = async (value) => {
+  const onCreateNewView = async (value:any) => {
     await sleep(500);
     setItemStrings([...itemStrings, value]);
     setSelected(itemStrings.length);
@@ -132,10 +132,10 @@ const Products = () => {
   const [status, setStatus] = useState(undefined);
   const [type, setType] = useState(undefined);
   const [queryValue, setQueryValue] = useState("");
-  const handleStatusChange = useCallback((value) => setStatus(value), []);
-  const handleTypeChange = useCallback((value) => setType(value), []);
+  const handleStatusChange = useCallback((value:any) => setStatus(value), []);
+  const handleTypeChange = useCallback((value:any) => setType(value), []);
   const handleFiltersQueryChange = useCallback(
-    (value) => setQueryValue(value),
+    (value:any) => setQueryValue(value),
     []
   );
   const handleStatusRemove = useCallback(() => setStatus(undefined), []);
@@ -253,17 +253,17 @@ const Products = () => {
     singular: "product",
     plural: "products",
   };
-  const { selectedResources, allResourcesSelected, handleSelectionChange } =
-    useIndexResourceState(products);
+  // const { selectedResources, allResourcesSelected, handleSelectionChange } =
+  //   useIndexResourceState(products);
   const rowMarkup = products.map(
     (
-      { id, thumbnail, product, price, status, inventory, type, vendor },
+      { id,  product, price, status, inventory, type, vendor },
       index
     ) => (
       <IndexTable.Row
         id={id}
         key={id}
-        selected={selectedResources.includes(id)}
+        // selected={selectedResources.includes(id)}
         position={index}
       >
         <IndexTable.Cell>
@@ -299,7 +299,7 @@ const Products = () => {
       ]}
     >
       <Card padding="0">
-        <IndexFilters
+        {/* <IndexFilters
           sortOptions={sortOptions}
           sortSelected={sortSelected}
           queryValue={queryValue}
@@ -307,13 +307,13 @@ const Products = () => {
           onQueryChange={handleFiltersQueryChange}
           onQueryClear={() => {}}
           onSort={setSortSelected}
-          primaryAction={primaryAction}
+          // primaryAction={primaryAction}
           cancelAction={{
             onAction: onHandleCancel,
             disabled: false,
             loading: false,
           }}
-          tabs={tabs}
+          // tabs={tabs}
           selected={selected}
           onSelect={setSelected}
           canCreateNewView
@@ -321,16 +321,16 @@ const Products = () => {
           filters={filters}
           appliedFilters={appliedFilters}
           onClearAll={handleFiltersClearAll}
-          mode={mode}
+          // mode={mode}
           setMode={setMode}
-        />
+        /> */}
         <IndexTable
           resourceName={resourceName}
           itemCount={products.length}
-          selectedItemsCount={
-            allResourcesSelected ? "All" : selectedResources.length
-          }
-          onSelectionChange={handleSelectionChange}
+          // selectedItemsCount={
+          //   allResourcesSelected ? "All" : selectedResources.length
+          // }
+          // onSelectionChange={handleSelectionChange}
           sortable={[false, true, true, true, true, true, true]}
           headings={[
             { title: "" },
