@@ -5,6 +5,7 @@ import Form from '../../components/Form';
 import FormLayout from '../../components/FormLayout';
 import Button from '../../components/Button';
 import TextField from '../../components/TextField';
+import Page from '../../components/Page';
 
 // 회원가입 데이터의 타입을 정의
 interface SignupData {
@@ -55,37 +56,39 @@ const SignupPage: React.FC = () => {
     setCompany(value);
   };
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormLayout>
-        <TextField
-          label="Email"
-          value={email}
-          onChange={handleEmailChange}
-          autoComplete="email"
-        />
-        <TextField
-          label="Password"
-          value={userPassword}
-          onChange={handlePasswordChange}
-          autoComplete="password"
-        />
-        <TextField
-          label="Memo"
-          value={memo}
-          onChange={handleMemoChange}
-          autoComplete="memo"
-        />
-        <TextField
-          label="Company"
-          value={company}
-          onChange={handleCompanyChange}
-          autoComplete="company"
-        />
-        <Button submit disabled={mutation.isLoading}>
-          Sign Up
-        </Button>
-      </FormLayout>
-    </Form>
+    <Page>
+      <Form onSubmit={handleSubmit}>
+        <FormLayout>
+          <TextField
+            label="Email"
+            value={email}
+            onChange={handleEmailChange}
+            autoComplete="email"
+          />
+          <TextField
+            label="Password"
+            value={userPassword}
+            onChange={handlePasswordChange}
+            autoComplete="password"
+          />
+          <TextField
+            label="Memo"
+            value={memo}
+            onChange={handleMemoChange}
+            autoComplete="memo"
+          />
+          <TextField
+            label="Company"
+            value={company}
+            onChange={handleCompanyChange}
+            autoComplete="company"
+          />
+          <Button submit disabled={mutation.isLoading}>
+            Sign Up
+          </Button>
+        </FormLayout>
+      </Form>
+    </Page>
   );
 };
 

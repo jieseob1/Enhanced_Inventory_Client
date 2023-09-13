@@ -7,6 +7,7 @@ import FormLayout from '../../components/FormLayout';
 import Button from '../../components/Button';
 import TextField from '../../components/TextField';
 import styled from 'styled-components';
+import Page from '../../components/Page';
 import Box from '../../components/Box';
 import Divider from '../../components/Divider';
 interface Credentials {
@@ -36,7 +37,12 @@ const LoginBox = styled.div`
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
-
+const ButtonSection = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+`;
 
 const login = async (credentials: Credentials) => {
   const response = await axios.post('/api/login', credentials);
@@ -71,33 +77,41 @@ const LoginPage = () => {
   };
   return (
     <Root>
-      <LoginSection>
-        <LoginBox>
-          <Form onSubmit={handleSubmit}>
-            <FormLayout>
-              <TextField
-                label="Email"
-                value={email}
-                onChange={handleEmailChange}
-                autoComplete="email"
-              />
-              <TextField
-                label="Password"
-                value={password}
-                onChange={handlePasswordChange}
-                autoComplete="password"
-              />
-              <Button 
-                submit
-                disabled={mutation.isLoading}
-              >
-                Login
-              </Button>
-              {/* {mutation.isError ? <div>An error occurred: {mutation.error.message}</div> : null} */}
-            </FormLayout>
-          </Form>
-        </LoginBox>
-      </LoginSection>
+      <Page>
+        <LoginSection>
+          <LoginBox>
+            <Form onSubmit={handleSubmit}>
+              <FormLayout>
+                <TextField
+                  label="Email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  autoComplete="email"
+                />
+                <TextField
+                  label="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  autoComplete="password"
+                />
+                <ButtonSection>
+                  <Button 
+                    submit
+                    disabled={mutation.isLoading}
+                  >
+                    Login
+                  </Button>
+                  <Button 
+                  >
+                    Signup
+                  </Button>
+                </ButtonSection>
+                {/* {mutation.isError ? <div>An error occurred: {mutation.error.message}</div> : null} */}
+              </FormLayout>
+            </Form>
+          </LoginBox>
+        </LoginSection>
+      </Page>
     </Root>
   );
 };

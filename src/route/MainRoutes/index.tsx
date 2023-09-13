@@ -4,6 +4,7 @@ import Dashboard from '../Dashboard';
 import Settings from '../Settings';
 import LoginPage from '../Login';
 import SignupPage from '../Signup';
+import Products from '../Products';
 
 const MainRoutes = () => {
   console.log("hihi mainroutes")
@@ -13,6 +14,7 @@ const MainRoutes = () => {
     <Route path="/login" element={<LoginPage />} />
     <Route path="/signup" element={<SignupPage />} />
     <Route path="/settings" element={<Settings />} />
+    <Route path="/products" element={<Products />} />
   </Routes>
 )};
 
