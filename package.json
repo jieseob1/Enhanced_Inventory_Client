@@ -51,6 +51,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.28.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@shopify/polaris": "^11.17.0",
