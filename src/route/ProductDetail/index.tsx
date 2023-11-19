@@ -1,32 +1,15 @@
-import React from "react";
-import HorizontalGrid from '../../components/HorizontalGrid';
-import VerticalStack from '../../components/VerticalStack';
-import Card from '../../components/Card';
-import Box from '../../components/Box';
-import SkeletonDisplayText from '../../components/SkeletonDisplayText';
-import Bleed from '../../components/Bleed';
-import Divider from '../../components/Divider';
-import SkeletonBodyText from '../../components/SkeletonBodyText';
-import Page from '../../components/Page';
+import React,{useState} from 'react';
+import { Page, Layout, Card, FormLayout, TextField, Button, ChoiceList, Thumbnail } from '@shopify/polaris';
+import { DeleteMinor, DuplicateMinor, ArchiveMinor } from '@shopify/polaris-icons';
+import Margin from '../../components/Margin';
+function ProductDetailsLayout() {
+  // 이 state들은 실제로 데이터를 관리하는 예시입니다. 실제 애플리케이션에서는 API나 상태 관리 라이브러리를 통해 관리될 수 있습니다.
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [productStatus, setProductStatus] = useState(['active']);
+  const [vendor, setVendor] = useState('');
+  const [type, setType] = useState('');
 
-import DuplicateMinor from '../../icons/DuplicateMinor';
-import ArchiveMinor from '../../icons/ArchiveMinor';
-import DeleteMinor from '../../icons/DeleteMinor';
-
-// https://polaris.shopify.com/patterns/resource-details-layout
-// https://shopify.dev/docs/apps/design-guidelines/layout
-const ProductDetail = () => {
-  const SkeletonLabel = (props: any) => {
-    return (
-      <Box
-        background="bg-strong"
-        minHeight="1rem"
-        maxWidth="5rem"
-        borderRadius="base"
-        {...props}
-      />
-    );
-  };
   return (
     <Page
       backAction={{ content: "Products", url: "/products" }}
@@ -35,20 +18,17 @@ const ProductDetail = () => {
         {
           content: "Duplicate",
           icon: DuplicateMinor,
-          accessibilityLabel: "Secondary action label",
           onAction: () => alert("Duplicate action"),
         },
         {
           content: "Archive",
           icon: ArchiveMinor,
-          accessibilityLabel: "Secondary action label",
           onAction: () => alert("Archive action"),
         },
         {
           content: "Delete",
           icon: DeleteMinor,
           destructive: true,
-          accessibilityLabel: "Secondary action label",
           onAction: () => alert("Delete action"),
         },
       ]}
@@ -57,55 +37,60 @@ const ProductDetail = () => {
         hasNext: true,
       }}
     >
-      <HorizontalGrid columns={{ xs: 1, md: "2fr 1fr" }} gap="4">
-        <VerticalStack gap="4">
-          <Card roundedAbove="sm">
-            <VerticalStack gap="4">
-              <SkeletonLabel />
-              <Box   minHeight="2rem" />
-              <SkeletonLabel maxWidth="8rem" />
-              <Box   minHeight="20rem" />
-            </VerticalStack>
+      <Layout>
+        <Layout.Section>
+          <Card>
+            <FormLayout>
+              <TextField label="Title" value={title} onChange={setTitle} autoComplete='off'/>
+              <TextField
+                label="Description"
+                value={description}
+                onChange={setDescription}
+                multiline={4}
+                autoComplete='off'
+              />
+            </FormLayout>
           </Card>
-          <Card roundedAbove="sm">
-            <VerticalStack gap="4">
-              <SkeletonDisplayText size="small" />
-              <HorizontalGrid columns={{ xs: 1, md: 2 }}>
-                <Box   minHeight="10rem" />
-                <Box   minHeight="10rem" />
-              </HorizontalGrid>
-            </VerticalStack>
+          <Margin top={1} />
+          <Card>
+            <Thumbnail
+              source="https://via.placeholder.com/100x100"
+              alt="Black t-shirt front view"
+            />
+            <Button>Upload Image</Button>
           </Card>
-        </VerticalStack>
-        <VerticalStack gap={{ xs: "4", md: "2" }}>
-          <Card roundedAbove="sm">
-            <VerticalStack gap="4">
-              <SkeletonDisplayText size="small" />
-              <Box  minHeight="2rem" />
-              <Box>
-                <Bleed >
-                  <Divider />
-                </Bleed>
-              </Box>
-              <SkeletonLabel />
-              <Divider />
-              <SkeletonBodyText />
-            </VerticalStack>
+        </Layout.Section>
+        <Layout.Section secondary>
+          <Card>
+            <ChoiceList
+              choices={[
+                { label: 'Active', value: 'active' },
+                { label: 'Draft', value: 'draft' },
+                { label: 'Archived', value: 'archived' },
+              ]}
+              selected={productStatus}
+              onChange={setProductStatus} title={undefined}            
+            />
           </Card>
-          <Card roundedAbove="sm">
-            <VerticalStack gap="4">
-              <SkeletonLabel />
-              <Box  minHeight="2rem" />
-              <SkeletonLabel maxWidth="4rem" />
-              <Box   minHeight="2rem" />
-              <SkeletonLabel />
-              <SkeletonBodyText />
-            </VerticalStack>
+          <Margin top={1} />
+          <Card>
+            <TextField 
+              label="Vendor" 
+              value={vendor}
+              onChange={setVendor}
+              autoComplete='off'
+            />
+            <TextField 
+              label="Product type" 
+              value={type}
+              onChange={setType}
+              autoComplete='off'
+            />
           </Card>
-        </VerticalStack>
-      </HorizontalGrid>
+        </Layout.Section>
+      </Layout>
     </Page>
-  )
+  );
 }
 
-export default ProductDetail;
+export default ProductDetailsLayout;
