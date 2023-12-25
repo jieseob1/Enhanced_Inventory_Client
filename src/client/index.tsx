@@ -5,6 +5,7 @@ import Suspense from '../components/Suspense';
 import App from '../App';
 import '@shopify/polaris/build/esm/styles.css';
 import ErrorBoundary from '../components/ErrorBoundary';
+import Spinner from '../components/Spinner';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
@@ -15,7 +16,7 @@ root.render(
     i18n={{}}
   >
     <ErrorBoundary>
-      <Suspense>
+      <Suspense fallback={<Spinner />}>
         <App />
       </Suspense>
     </ErrorBoundary>
