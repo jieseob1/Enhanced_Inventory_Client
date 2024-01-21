@@ -1,4 +1,4 @@
-import React, {useState,useCallback} from "react";
+import React, { useState, useCallback } from "react";
 
 import IndexTable from '../../components/IndexTable';
 import Card from '../../components/Card';
@@ -6,40 +6,46 @@ import Page from '../../components/Page';
 import IndexFilters from '../../components/IndexFilters';
 import Badge from '../../components/Badge';
 import ChoiceList from '../../components/ChoiceList';
+import { useNavigate } from "react-router-dom";
 
-function disambiguateLabel(key: any, value:any) {
+function disambiguateLabel(key: any, value: any) {
   switch (key) {
     case "type":
-      return value.map((val:any) => `type: ${val}`).join(", ");
+      return value.map((val: any) => `type: ${val}`).join(", ");
     case "status":
-      return value.map((val:any) => `status: ${val}`).join(", ");
+      return value.map((val: any) => `status: ${val}`).join(", ");
     default:
       return value;
   }
 }
-function isEmpty(value:any) {
+function isEmpty(value: any) {
   if (Array.isArray(value)) {
     return value.length === 0;
   } else {
     return value === "" || value == null;
   }
 }
-const sleep = (ms:any) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Products = () => {
+  const navigate = useNavigate();
+
+  const handleAddProduct = () => {
+    navigate('/insertProduct'); // 여기서 '/target-path'는 이동하고자 하는 경로
+  };
   const [itemStrings, setItemStrings] = useState([
     "All",
     "Active",
     "Draft",
     "Archived",
   ]);
-  const deleteView = (index:any) => {
+  const deleteView = (index: any) => {
     const newItemStrings = [...itemStrings];
     newItemStrings.splice(index, 1);
     setItemStrings(newItemStrings);
     setSelected(0);
   };
-  const duplicateView = async (name:any) => {
+  const duplicateView = async (name: any) => {
     setItemStrings([...itemStrings, name]);
     setSelected(itemStrings.length);
     await sleep(1);
@@ -48,51 +54,51 @@ const Products = () => {
   const tabs = itemStrings.map((item, index) => ({
     content: item,
     index,
-    onAction: () => {},
+    onAction: () => { },
     id: `${item}-${index}`,
     isLocked: index === 0,
     actions:
       index === 0
         ? []
         : [
-            {
-              type: "rename",
-              onAction: () => {},
-              // onPrimaryAction: async (value:any) => {
-              //   const newItemsStrings = tabs.map((item, idx) => {
-              //     if (idx === index) {
-              //       return value;
-              //     }
-              //     return item.content;
-              //   });
-              //   await sleep(1);
-              //   setItemStrings(newItemsStrings);
-              //   return true;
-              // },
+          {
+            type: "rename",
+            onAction: () => { },
+            // onPrimaryAction: async (value:any) => {
+            //   const newItemsStrings = tabs.map((item, idx) => {
+            //     if (idx === index) {
+            //       return value;
+            //     }
+            //     return item.content;
+            //   });
+            //   await sleep(1);
+            //   setItemStrings(newItemsStrings);
+            //   return true;
+            // },
+          },
+          {
+            type: "duplicate",
+            onPrimaryAction: async (name: any) => {
+              await sleep(1);
+              duplicateView(name);
+              return true;
             },
-            {
-              type: "duplicate",
-              onPrimaryAction: async (name:any) => {
-                await sleep(1);
-                duplicateView(name);
-                return true;
-              },
+          },
+          {
+            type: "edit",
+          },
+          {
+            type: "delete",
+            onPrimaryAction: async () => {
+              await sleep(1);
+              deleteView(index);
+              return true;
             },
-            {
-              type: "edit",
-            },
-            {
-              type: "delete",
-              onPrimaryAction: async () => {
-                await sleep(1);
-                deleteView(index);
-                return true;
-              },
-            },
-          ],
+          },
+        ],
   }));
   const [selected, setSelected] = useState(0);
-  const onCreateNewView = async (value:any) => {
+  const onCreateNewView = async (value: any) => {
     await sleep(500);
     setItemStrings([...itemStrings, value]);
     setSelected(itemStrings.length);
@@ -110,7 +116,7 @@ const Products = () => {
   ];
   const [sortSelected, setSortSelected] = useState(["product asc"]);
   const [mode, setMode] = useState('');
-  const onHandleCancel = () => {};
+  const onHandleCancel = () => { };
   const onHandleSave = async () => {
     await sleep(1);
     return true;
@@ -118,24 +124,24 @@ const Products = () => {
   const primaryAction =
     selected === 0
       ? {
-          type: "save-as",
-          onAction: onCreateNewView,
-          disabled: false,
-          loading: false,
-        }
+        type: "save-as",
+        onAction: onCreateNewView,
+        disabled: false,
+        loading: false,
+      }
       : {
-          type: "save",
-          onAction: onHandleSave,
-          disabled: false,
-          loading: false,
-        };
+        type: "save",
+        onAction: onHandleSave,
+        disabled: false,
+        loading: false,
+      };
   const [status, setStatus] = useState(undefined);
   const [type, setType] = useState(undefined);
   const [queryValue, setQueryValue] = useState("");
-  const handleStatusChange = useCallback((value:any) => setStatus(value), []);
-  const handleTypeChange = useCallback((value:any) => setType(value), []);
+  const handleStatusChange = useCallback((value: any) => setStatus(value), []);
+  const handleTypeChange = useCallback((value: any) => setType(value), []);
   const handleFiltersQueryChange = useCallback(
-    (value:any) => setQueryValue(value),
+    (value: any) => setQueryValue(value),
     []
   );
   const handleStatusRemove = useCallback(() => setStatus(undefined), []);
@@ -257,7 +263,7 @@ const Products = () => {
   //   useIndexResourceState(products);
   const rowMarkup = products.map(
     (
-      { id,  product, price, status, inventory, type, vendor },
+      { id, product, price, status, inventory, type, vendor },
       index
     ) => (
       <IndexTable.Row
@@ -284,7 +290,10 @@ const Products = () => {
   return (
     <Page
       title={"Products"}
-      primaryAction={{ content: "Add product" }}
+      primaryAction={{
+        content: "Add product",
+        onAction: () => handleAddProduct()
+      }}
       secondaryActions={[
         {
           content: "Export",

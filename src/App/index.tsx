@@ -29,13 +29,24 @@ const Root = styled.div`
 const navigationMarkup = (
   <Navigation location="/">
     <Navigation.Section
-        items={[
-          {
-            label: 'Back to Dashboard',
-            icon: ArrowLeftMinor
-          },
-        ]}
-      />
+      items={[
+        {
+          url: '/dashboard',
+          label: 'Back to Dashboard',
+          icon: ArrowLeftMinor
+        },
+        {
+          url: '/',
+          label: 'Home',
+          icon: HomeMinor,
+        },
+        {
+          url: '/products',
+          label: 'Products',
+          icon: ProductsMinor,
+        },
+      ]}
+    />
   </Navigation>
 )
 const App: React.FC = () => {
@@ -47,20 +58,20 @@ const App: React.FC = () => {
             <Route element={<AuthRoutes />} />
             <Route
               path="*"
-              element={                    
-                  <Frame
-                    navigation={navigationMarkup}
-                  >
-                    <MainRoutes />
-                  </Frame>
+              element={
+                <Frame
+                  navigation={navigationMarkup}
+                >
+                  <MainRoutes />
+                </Frame>
               }
             />
           </Routes>
         </Router>
-    </QueryClientProvider>
-  </Root>
+      </QueryClientProvider>
+    </Root>
   )
-    
+
 }
 
 export default App;

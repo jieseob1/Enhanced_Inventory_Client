@@ -16,7 +16,7 @@ root.render(
     i18n={{}}
   >
     <ErrorBoundary>
-      <Suspense fallback={<Spinner />}>
+      <Suspense fallback={<Spinner size='large'/>}>
         <App />
       </Suspense>
     </ErrorBoundary>
