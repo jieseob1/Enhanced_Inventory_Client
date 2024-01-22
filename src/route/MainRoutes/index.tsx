@@ -4,9 +4,10 @@ import Dashboard from '../Dashboard';
 import Settings from '../Settings';
 import LoginPage from '../Login';
 import SignupPage from '../Signup';
-import Products from '../Products';
+import Inventory from '../Inventory';
 import ProductDetail from '../ProductDetail';
 import InsertProducts from '../InsertProducts';
+import InsertProduct from '../InsertProduct';
 
 const MainRoutes = () => {
   console.log("hihi mainroutes")
@@ -16,8 +17,9 @@ const MainRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/settings" element={<Settings />} />
-      <Route path="/products" element={<Products />} />
+      <Route path="/inventory" element={<Inventory />} />
       <Route path="/productDetail" element={<ProductDetail />} />
+      <Route path="/insertProduct" element={<InsertProduct />} />
       <Route path="/insertProducts" element={<InsertProducts />} />
     </Routes>
   )
