@@ -290,11 +290,11 @@ const Inventory = () => {
   );
   return (
     <Page
-      title={"Products"}
-      primaryAction={{
-        content: "Add product",
-        onAction: () => handleAddProduct()
-      }}
+      title={"Invenotry Management"}
+      // primaryAction={{
+      //   content: "Add product",
+      //   onAction: () => handleAddProduct()
+      // }}
       secondaryActions={[
         {
           content: "Export",

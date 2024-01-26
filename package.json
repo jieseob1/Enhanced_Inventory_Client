@@ -66,6 +66,7 @@
     "react-prop-types": "^0.4.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.15.0",
+    "recharts": "^2.10.4",
     "styled-components": "^5.3.11",
     "typescript": "^5.1.6"
   }
