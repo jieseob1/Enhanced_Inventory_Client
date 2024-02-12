@@ -3,7 +3,6 @@ import React, { useState, useMemo } from "react";
 import IndexTable from '../IndexTable';
 import LegacyCard from "../LegacyCard";
 import { useIndexResourceState } from "../../utils/useIndexResourceState";
-import { Product } from "../../route/InsertProducts";
 import Link from '../Link';
 import Text from "../Text";
 import TextField from "../TextField";
@@ -17,23 +16,42 @@ import Pagination from "../Pagination";
 
 interface InventoryItem {
   id: string;
-  product: Product;
+  // product: Product;
+  product: {
+    name: string;
+  };
   quantity: number;
   location: string;
-
+};
+interface InventoryTableProps {
+  inventoryItems: InventoryItem[];
 }
-const InventoryTable = (inventoryItems: InventoryItem[]) => {
+const resourceName = {
+  singular: 'inventory',
+  plural: 'inventories',
+};
+const InventoryTable: React.FC<InventoryTableProps> = ({ inventoryItems }) => {
   //product,quantity,location
   //inventory 정보를 받아온다.
   // 괄호에  받아온 정보 넣는다.
-  const { selectedResources, allResourcesSelected, handleSelectionChange } = useIndexResourceState(inventoryItems);
+  function convertInventoryItems(items: InventoryItem[]): { [key: string]: unknown; }[] {
+    return items.map(item => ({
+      id: item.id,
+      product: item.product,
+      quantity: item.quantity,
+      location: item.location,
+      // 필요하다면 여기에 더 많은 필드를 추가
+    }));
+  };
+  const convertedItems = convertInventoryItems(inventoryItems);
+  const { selectedResources, allResourcesSelected, handleSelectionChange } = useIndexResourceState(convertedItems);
   const [query, setQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(10); // 페이지당 항목 수 설정
 
   // 검색 필터 적용
   const filteredItems = useMemo(() => {
-    return inventoryItems.filter((item) => {
+    return inventoryItems.filter((item: InventoryItem) => {
       return item.product.name.toLowerCase().includes(query.toLowerCase()) || item.location.toLowerCase().includes(query.toLowerCase());
     });
   }, [query, inventoryItems]);
@@ -54,7 +72,7 @@ const InventoryTable = (inventoryItems: InventoryItem[]) => {
   };
 
   const rowMarkup = paginatedItems.map(
-    ({ id, product, quantity, location }, index) => (
+    ({ id, product, quantity, location }: InventoryItem, index: number) => (
       <IndexTable.Row
         id={id}
         key={id}
@@ -89,7 +107,21 @@ const InventoryTable = (inventoryItems: InventoryItem[]) => {
         onClearButtonClick={() => setQuery('')}
         autoComplete="off" // 필요한 경우 autoComplete 속성 추가
       />
-      {rowMarkup}
+      <IndexTable
+        resourceName={resourceName}
+        itemCount={inventoryItems.length}
+        selectedItemsCount={
+          allResourcesSelected ? 'All' : selectedResources.length
+        }
+        onSelectionChange={handleSelectionChange}
+        headings={[
+          { title: 'product name' },
+          { title: 'locaiton' },
+          { title: 'quantity', alignment: 'end' },
+        ]}
+      >
+        {rowMarkup}
+      </IndexTable>
       <Pagination
         hasPrevious={currentPage > 1}
         onPrevious={handlePreviousPage}
