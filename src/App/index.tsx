@@ -40,7 +40,7 @@ const navigationMarkup = (
     <Navigation.Section
       items={[
         {
-          url: '/dashboard',
+          url: '/',
           label: 'Back to Dashboard',
           icon: ArrowLeftMinor
         },
@@ -52,6 +52,16 @@ const navigationMarkup = (
         {
           url: '/products',
           label: 'Products',
+          icon: ProductsMinor,
+        },
+        {
+          url: '/inventory',
+          label: 'Inventory',
+          icon: ProductsMinor,
+        },
+        {
+          url: '/settings',
+          label: 'Settings',
           icon: ProductsMinor,
         },
       ]}
