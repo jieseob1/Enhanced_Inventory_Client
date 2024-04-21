@@ -28,7 +28,7 @@ function defaultResourceIDResolver(resource: { [key: string]: any }): string {
 export function useIndexResourceState<T extends { [key: string]: unknown }>(
   resources: T[],
   {
-    selectedResources: initSelectedResources = [],
+    selectedResources: initSelectedResources = [], // 해당 부분 초기화
     allResourcesSelected: initAllResourcesSelected = false,
     resourceIDResolver = defaultResourceIDResolver,
     resourceFilter = undefined,

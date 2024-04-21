@@ -1,138 +1,92 @@
-import React, { useState, useMemo } from "react";
+import React, { useCallback, useState } from 'react';
+import { Button, DataTable, Pagination, TextField } from '@shopify/polaris';
+import LegacyCard from '../LegacyCard';
 
-import IndexTable from '../IndexTable';
-import LegacyCard from "../LegacyCard";
-import { useIndexResourceState } from "../../utils/useIndexResourceState";
-import Link from '../Link';
-import Text from "../Text";
-import TextField from "../TextField";
-import Pagination from "../Pagination";
-
-// 재고 수준 보기: 각 제품의 현재 재고 수준을 확인할 수 있습니다.
-// 재고 위치 확인: 제품이 어디에 위치해 있는지 보여줍니다.
-// 재고 업데이트: 입고, 출고 및 재고 수준 조정과 같은 작업을 수행할 수 있습니다.
-// 재고 이력 및 로그 조회: 재고 변경 이력과 관련 로그를 확인할 수 있습니다.
-// 알림 설정: 재고 수준이 특정 기준 이하로 떨어질 때 알림을 설정할 수 있습니다.
-
-interface InventoryItem {
-  id: string;
-  // product: Product;
-  product: {
-    name: string;
-  };
-  quantity: number;
-  location: string;
-};
-interface InventoryTableProps {
-  inventoryItems: InventoryItem[];
+interface TableColumn<T> {
+  key: keyof T;
+  header: string;
+  render?: (item: T) => React.ReactNode;
 }
-const resourceName = {
-  singular: 'inventory',
-  plural: 'inventories',
-};
-const InventoryTable: React.FC<InventoryTableProps> = ({ inventoryItems }) => {
-  //product,quantity,location
-  //inventory 정보를 받아온다.
-  // 괄호에  받아온 정보 넣는다.
-  function convertInventoryItems(items: InventoryItem[]): { [key: string]: unknown; }[] {
-    return items.map(item => ({
-      id: item.id,
-      product: item.product,
-      quantity: item.quantity,
-      location: item.location,
-      // 필요하다면 여기에 더 많은 필드를 추가
-    }));
-  };
-  const convertedItems = convertInventoryItems(inventoryItems);
-  const { selectedResources, allResourcesSelected, handleSelectionChange } = useIndexResourceState(convertedItems);
-  const [query, setQuery] = useState<string>("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10); // 페이지당 항목 수 설정
 
-  // 검색 필터 적용
-  const filteredItems = useMemo(() => {
-    return inventoryItems.filter((item: InventoryItem) => {
-      return item.product.name.toLowerCase().includes(query.toLowerCase()) || item.location.toLowerCase().includes(query.toLowerCase());
-    });
-  }, [query, inventoryItems]);
+interface TableProps<T> {
+  title: string;
+  searchLabel: string;
+  data: T[];
+  columns: TableColumn<T>[];
+  actions?: string[];
+  onSearch: (searchText: string) => void;
+  onPreviousPage: () => void;
+  onNextPage: () => void;
+}
 
-  // 페이지네이션을 위한 항목 분할
-  const paginatedItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredItems.slice(startIndex, startIndex + itemsPerPage);
-  }, [currentPage, itemsPerPage, filteredItems]);
+type TableData<T> = (T[keyof T] | React.ReactNode)[];
 
-  // 페이지네이션을 위한 핸들러
-  const handlePreviousPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
+const Table = <T extends Record<string, any>>({
+  title,
+  searchLabel,
+  data,
+  columns,
+  actions,
+  onSearch,
+  onPreviousPage,
+  onNextPage,
+}: TableProps<T>) => {
+  const [searchText, setSearchText] = useState('');
 
-  const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  const rowMarkup = paginatedItems.map(
-    ({ id, product, quantity, location }: InventoryItem, index: number) => (
-      <IndexTable.Row
-        id={id}
-        key={id}
-        selected={selectedResources.includes(id)}
-        position={index}
-      >
-        <IndexTable.Cell>
-          <Link
-            dataPrimaryLink
-            // url={}
-            onClick={() => console.log(`clicked ${product.name}`)}
-          />
-          <Text fontWeight="bold" as="span">
-            {location}
-          </Text>
-          <Text as="span" alignment="end" numeric>
-            {quantity}
-          </Text>
-        </IndexTable.Cell>
-      </IndexTable.Row>
-    )
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearchText(value);
+      onSearch(value);
+    },
+    [onSearch]
   );
 
+  // const rows: TableData<T>[] = data.map((row) => [
+  //   ...columns.map((column) => row[column.key]),
+  //   actions.map((action, index) => (
+  //     <Button key={index}>{action}</Button>
+  //   )),
+  // ]);
+  const rows: TableData<T>[] = data.map((row) => [
+    ...columns.map((column) => {
+      if (column.render) {
+        return column.render(row);
+      }
+      return row[column.key];
+    }),
+    actions?.map((action, index) => (
+      <Button key={index}>{action}</Button>
+    )),
+  ]);
+
   return (
-    <>
-      <TextField
-        value={query}
-        onChange={(newValue) => setQuery(newValue)}
-        label="Search" // 여기에 label 속성을 추가
-        placeholder="Search"
-        clearButton
-        onClearButtonClick={() => setQuery('')}
-        autoComplete="off" // 필요한 경우 autoComplete 속성 추가
+    <LegacyCard>
+      <LegacyCard.Section>
+        <h2>{title}</h2>
+      </LegacyCard.Section>
+      <LegacyCard.Section>
+        <TextField
+          label={searchLabel}
+          value={searchText}
+          onChange={handleSearchChange}
+          autoComplete="off"
+        />
+      </LegacyCard.Section>
+      <DataTable
+        columnContentTypes={[...Array(columns.length).fill('text'), 'text']}
+        headings={[...columns.map((column) => column.header), 'Actions']}
+        rows={rows}
       />
-      <IndexTable
-        resourceName={resourceName}
-        itemCount={inventoryItems.length}
-        selectedItemsCount={
-          allResourcesSelected ? 'All' : selectedResources.length
-        }
-        onSelectionChange={handleSelectionChange}
-        headings={[
-          { title: 'product name' },
-          { title: 'locaiton' },
-          { title: 'quantity', alignment: 'end' },
-        ]}
-      >
-        {rowMarkup}
-      </IndexTable>
-      <Pagination
-        hasPrevious={currentPage > 1}
-        onPrevious={handlePreviousPage}
-        hasNext={currentPage * itemsPerPage < filteredItems.length}
-        onNext={handleNextPage}
-      />
-    </>
-  )
-
-
-
+      <LegacyCard.Section>
+        <Pagination
+          hasPrevious
+          hasNext
+          onPrevious={onPreviousPage}
+          onNext={onNextPage}
+        />
+      </LegacyCard.Section>
+    </LegacyCard>
+  );
 };
 
-export default InventoryTable;
+export default Table;

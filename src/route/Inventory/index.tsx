@@ -1,14 +1,22 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
-import IndexTable from '../../components/IndexTable';
+import axios from "axios";
 import Card from '../../components/Card';
 import Page from '../../components/Page';
-import IndexFilters from '../../components/IndexFilters';
-import Modal from '../../components/Modal';
-import Badge from '../../components/Badge';
-import ChoiceList from '../../components/ChoiceList';
 import { useNavigate } from "react-router-dom";
-import InventoryTable from "../../components/InventoryTable";
+import Table from "../../components/InventoryTable";
+import { useQuery } from "react-query";
+import InventoryIndexTable from "../../components/InventoryIndexTable";
+
+
+interface InventoryItem {
+  id: string;
+  product: {
+    name: string;
+  };
+  quantity: number;
+  location: string;
+}
 
 function disambiguateLabel(key: any, value: any) {
   switch (key) {
@@ -20,6 +28,12 @@ function disambiguateLabel(key: any, value: any) {
       return value;
   }
 }
+// const fetchInventoryItems = () => {
+//   return axios.get( //Todo: change Later
+//     "http://localhost:8080/inventories"
+//   )
+// };
+
 function isEmpty(value: any) {
   if (Array.isArray(value)) {
     return value.length === 0;
@@ -32,9 +46,8 @@ const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 const Inventory = () => {
   const navigate = useNavigate();
 
-  const handleAddProduct = () => {
-    navigate('/insertProduct'); // 여기서 '/target-path'는 이동하고자 하는 경로
-  };
+  // const { isLoading, data, isError, error } = useQuery("get-inventories", fetchInventoryItems);
+  // console.log("data =>", data)
   const [itemStrings, setItemStrings] = useState([
     "All",
     "Active",
@@ -185,10 +198,31 @@ const Inventory = () => {
     singular: "product",
     plural: "products",
   };
+
+  const [searchText, setSearchText] = useState('');
+
+  const filteredData = inventoryItems.filter((item) =>
+    item.product.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const handleSearch = (value: string) => {
+    setSearchText(value);
+  };
+
+  const handlePreviousPage = () => {
+    // 이전 페이지로 이동하는 로직 구현
+  };
+
+  const handleNextPage = () => {
+    // 다음 페이지로 이동하는 로직 구현
+  };
   // const { selectedResources, allResourcesSelected, handleSelectionChange } =
   //   useIndexResourceState(products);
+
+
   return (
     <Page
+      fullWidth
       title={"Invenotry Management"}
       // primaryAction={{
       //   content: "Add product",
@@ -208,8 +242,20 @@ const Inventory = () => {
       ]}
     >
       <Card padding="0">
-        <InventoryTable
-          inventoryItems={inventoryItems}
+        <InventoryIndexTable<InventoryItem>
+          title="Inventory"
+          searchLabel="Search by product name"
+          data={filteredData}
+          columns={[
+            { key: 'id', header: 'ID' },
+            { key: 'product', header: 'Product', render: (item) => item.product.name },
+            { key: 'quantity', header: 'Quantity' },
+            { key: 'location', header: 'Location' },
+          ]}
+          // actions={['Edit', 'Delete']}
+          onSearch={handleSearch}
+          onPreviousPage={handlePreviousPage}
+          onNextPage={handleNextPage}
         />
       </Card>
     </Page>
