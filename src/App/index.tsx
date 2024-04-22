@@ -11,7 +11,9 @@ import HomeMinor from '../icons/HomeMinor';
 import OrdersMinor from '../icons/OrdersMinor';
 import ProductsMinor from '../icons/ProductsMinor';
 import styled from 'styled-components'
-
+import TopBar from '../components/TopBar';
+import { Icon } from "@shopify/polaris";
+import { ProfileMinor, LogOutMinor, QuestionMarkMajor, ConversationMinor, PhoneInMajor } from "@shopify/polaris-icons";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -40,7 +42,7 @@ const navigationMarkup = (
     <Navigation.Section
       items={[
         {
-          url: '/dashboard',
+          url: '/',
           label: 'Back to Dashboard',
           icon: ArrowLeftMinor
         },
@@ -54,9 +56,75 @@ const navigationMarkup = (
           label: 'Products',
           icon: ProductsMinor,
         },
+        {
+          url: '/inventory',
+          label: 'Inventory',
+          icon: ProductsMinor,
+        },
+        {
+          url: '/settings',
+          label: 'Settings',
+          icon: ProductsMinor,
+        },
       ]}
     />
   </Navigation>
+)
+const searchFieldMarkup = (
+  <TopBar.SearchField
+    onChange={() => { }}
+    value=""
+    placeholder="검색..."
+  />
+);
+const userMenuMarkup = (
+  <TopBar.UserMenu
+    actions={[
+      {
+        items: [{ content: '사용자 프로필', icon: ProfileMinor }],
+      },
+      {
+        items: [{ content: '로그아웃', icon: LogOutMinor }],
+      },
+    ]}
+    name="사용자 이름"
+    detail="관리자"
+    initials="A"
+    open
+    onToggle={() => { }}
+  />
+);
+const secondaryMenuMarkup = (
+  <TopBar.Menu
+    activatorContent={
+      <span>
+        <Icon source={QuestionMarkMajor} />
+        <p>도움말</p>
+      </span>
+    }
+    open
+    onOpen={() => { }}
+    onClose={() => { }}
+    actions={[
+      {
+        items: [{ content: '도움말 센터', icon: QuestionMarkMajor }],
+      },
+      {
+        items: [{ content: '커뮤니티 포럼', icon: ConversationMinor }],
+      },
+      {
+        items: [{ content: '지원 요청', icon: PhoneInMajor }],
+      },
+    ]}
+  />
+);
+const topBarMarkup = (
+  <TopBar
+    showNavigationToggle
+    userMenu={userMenuMarkup}
+    searchField={searchFieldMarkup}
+    secondaryMenu={secondaryMenuMarkup}
+  />
 )
 const App: React.FC = () => {
   return (
@@ -69,6 +137,7 @@ const App: React.FC = () => {
               path="*"
               element={
                 <Frame
+                  topBar={topBarMarkup}
                   navigation={navigationMarkup}
                 >
                   <MainRoutes />

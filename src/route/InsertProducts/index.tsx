@@ -10,7 +10,7 @@ import axios from "axios";
 import styled from "styled-components";
 import DataTable from '../../components/DataTable';
 
-interface Product {
+export interface Product {
   id: string;
   productImage: string;
   name: string;
