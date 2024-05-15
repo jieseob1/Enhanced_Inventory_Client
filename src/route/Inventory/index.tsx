@@ -6,6 +6,7 @@ import Page from '../../components/Page';
 import { useNavigate } from "react-router-dom";
 import Table from "../../components/InventoryTable";
 import { useQuery } from "react-query";
+import { useIndexResourceState } from "../../utils/useIndexResourceState";
 import InventoryIndexTable from "../../components/InventoryIndexTable";
 
 
@@ -216,8 +217,8 @@ const Inventory = () => {
   const handleNextPage = () => {
     // 다음 페이지로 이동하는 로직 구현
   };
-  // const { selectedResources, allResourcesSelected, handleSelectionChange } =
-  //   useIndexResourceState(products);
+  const { selectedResources, allResourcesSelected, handleSelectionChange } =
+    useIndexResourceState(inventoryItems);
 
 
   return (
