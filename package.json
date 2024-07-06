@@ -55,7 +55,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@shopify/polaris": "^11.26.0",
-    "@shopify/polaris-icons": "^7.8.1",
+    "@shopify/polaris-icons": "^7.13.0",
     "@types/react": "^18.0.0",
     "axios": "^1.4.0",
     "chart.js": "^4.4.0",

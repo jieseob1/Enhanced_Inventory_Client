@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
-import { Button, IndexTable, Pagination, TextField, useIndexResourceState } from '@shopify/polaris';
+import React, { useCallback, useState, useMemo } from 'react';
+import { Button, IndexTable, Pagination, TextField, useIndexResourceState, Select } from '@shopify/polaris';
 import { IndexTableHeading } from '@shopify/polaris/build/ts/src/components/IndexTable';
 import { NonEmptyArray } from '@shopify/polaris/build/ts/src/types';
 import LegacyCard from '../LegacyCard';
 import { Box } from '@shopify/polaris';
 import { BulkActionsProps } from '@shopify/polaris/build/ts/src/components/BulkActions';
+import EmptyState from '../EmptyState';
 
 interface TableColumn<T> {
   key: keyof T;
@@ -23,6 +24,11 @@ interface TableProps<T> {
   onNextPage: () => void;
   selectedItemsCount?: number | "All" | undefined;
   promotedBulkActions?: BulkActionsProps['promotedActions'];
+  bulkActions?: BulkActionsProps['actions'];
+  emptyStateTitle: string;
+  emptyStateDescrpition: string;
+  filters?: { label: string; value: string }[];
+  onFilterChange?: (filterValue: string) => void;
 }
 
 const InventoryIndexTable = <T extends Record<string, any>>({
@@ -35,8 +41,15 @@ const InventoryIndexTable = <T extends Record<string, any>>({
   onPreviousPage,
   onNextPage,
   promotedBulkActions,
+  bulkActions,
+  emptyStateTitle,
+  emptyStateDescrpition,
+  filters,
+  onFilterChange
 }: TableProps<T>) => {
   const [searchText, setSearchText] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleSearchChange = useCallback(
     (value: string) => {
@@ -46,7 +59,36 @@ const InventoryIndexTable = <T extends Record<string, any>>({
     [onSearch]
   );
 
-  const rows = data.map((row, index) => {
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (page < currentPage) {
+      onPreviousPage();
+    } else {
+      onNextPage();
+    }
+  };
+
+  const handleFilterChange = (value: string) => {
+    if (onFilterChange) {
+      onFilterChange(value);
+    }
+  };
+
+  const filteredData = useMemo(() => {
+    if (!filters || !filters.length) return data;
+    return data.filter(item => {
+      // filtering logic here if needed
+      return true;
+    });
+  }, [data, filters]);
+
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredData.slice(startIndex, endIndex);
+  }, [filteredData, currentPage]);
+
+  const rows = paginatedData.map((row, index) => {
     const rowData: (string | React.ReactNode)[] = columns.map((column) => {
       if (column.render) {
         return column.render(row);
@@ -84,8 +126,10 @@ const InventoryIndexTable = <T extends Record<string, any>>({
   const { selectedResources, allResourcesSelected, handleSelectionChange } =
     useIndexResourceState(rows);
 
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
   return (
-    <Box paddingBlockEnd="400">
+    <Box>
       <LegacyCard>
         <LegacyCard.Section>
           <h2>{title}</h2>
@@ -97,13 +141,22 @@ const InventoryIndexTable = <T extends Record<string, any>>({
             onChange={handleSearchChange}
             autoComplete="off"
           />
+          {filters && filters.length > 0 && (
+            <Select
+              label="Filter"
+              options={filters}
+              onChange={handleFilterChange}
+            />
+          )}
         </LegacyCard.Section>
         <IndexTable
           headings={indexTableHeadings}
           itemCount={rows.length}
           selectedItemsCount={allResourcesSelected ? 'All' : selectedResources.length}
           promotedBulkActions={promotedBulkActions}
+          bulkActions={bulkActions}
           onSelectionChange={handleSelectionChange}
+          emptyState={<EmptyState title={emptyStateTitle} description={emptyStateDescrpition} />}
         >
           {rows.map((row, index) => (
             <IndexTable.Row
@@ -118,14 +171,17 @@ const InventoryIndexTable = <T extends Record<string, any>>({
             </IndexTable.Row>
           ))}
         </IndexTable>
-        <LegacyCard.Section>
-          <Pagination
-            hasPrevious
-            hasNext
-            onPrevious={onPreviousPage}
-            onNext={onNextPage}
-          />
-        </LegacyCard.Section>
+        {rows.length > 0 && (
+          <LegacyCard.Section>
+            <Pagination
+              hasPrevious={currentPage > 1}
+              hasNext={currentPage < totalPages}
+              onPrevious={() => handlePageChange(currentPage - 1)}
+              onNext={() => handlePageChange(currentPage + 1)}
+            />
+            <p>Page {currentPage} of {totalPages}</p>
+          </LegacyCard.Section>
+        )}
       </LegacyCard>
     </Box>
   );

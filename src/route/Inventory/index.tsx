@@ -4,10 +4,9 @@ import axios from "axios";
 import Card from '../../components/Card';
 import Page from '../../components/Page';
 import { useNavigate } from "react-router-dom";
-import Table from "../../components/InventoryTable";
 import { useQuery } from "react-query";
-import { useIndexResourceState } from "../../utils/useIndexResourceState";
 import InventoryIndexTable from "../../components/InventoryIndexTable";
+import { DeleteMinor } from "@shopify/polaris-icons";
 
 
 interface InventoryItem {
@@ -42,6 +41,32 @@ function isEmpty(value: any) {
     return value === "" || value == null;
   }
 }
+
+const promotedBulkActions = [
+  {
+    title: 'Export',
+    actions: [
+      {
+        content: 'Export as PDF',
+        onAction: () => console.log('Todo: implement PDF exporting'),
+      },
+      {
+        content: 'Export as CSV',
+        onAction: () => console.log('Todo: implement CSV exporting'),
+      },
+    ]
+  }
+];
+
+const bulkActions = [
+  {
+    icon: DeleteMinor,
+    destructive: true,
+    content: 'Delete customers',
+    onAction: () => console.log('Todo: implement bulk delete'),
+  }
+];
+
 const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Inventory = () => {
@@ -217,8 +242,6 @@ const Inventory = () => {
   const handleNextPage = () => {
     // 다음 페이지로 이동하는 로직 구현
   };
-  const { selectedResources, allResourcesSelected, handleSelectionChange } =
-    useIndexResourceState(inventoryItems);
 
 
   return (
@@ -257,6 +280,10 @@ const Inventory = () => {
           onSearch={handleSearch}
           onPreviousPage={handlePreviousPage}
           onNextPage={handleNextPage}
+          promotedBulkActions={promotedBulkActions}
+          bulkActions={bulkActions}
+          emptyStateTitle="No Inventory Yet"
+          emptyStateDescrpition="Try changing the filters or search term"
         />
       </Card>
     </Page>
