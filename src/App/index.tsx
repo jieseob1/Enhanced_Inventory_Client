@@ -14,6 +14,7 @@ import styled from 'styled-components'
 import TopBar from '../components/TopBar';
 import { Icon } from "@shopify/polaris";
 import { ProfileMinor, LogOutMinor, QuestionMarkMajor, ConversationMinor, PhoneInMajor } from "@shopify/polaris-icons";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -28,15 +29,6 @@ const Root = styled.div`
   height: 100%;
 `;
 
-//Dashboard
-//Orders
-// Products
-// Customer
-// message
-// settings
-//https://www.behance.net/gallery/115550699/Ecommerce-Dashboard-for-Sellers
-// https://www.behance.net/gallery/161378721/Warehouse-Management-System-(WMS)-Case-Study?tracking_source=search_projects|wms+warehouse+management&l=0
-// https://www.behance.net/gallery/181775687/Snabb-suite-A-warehouse-management-system-for-SMEs?tracking_source=search_projects|wms+warehouse+management&l=16
 const navigationMarkup = (
   <Navigation location="/">
     <Navigation.Section

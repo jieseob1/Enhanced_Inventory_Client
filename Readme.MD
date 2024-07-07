@@ -6,7 +6,7 @@
 - JavaScript
 - styled-component
 - TypeScript
-- react-Query(not determined yet)
+- react-Query( experimental => for state managmement)
 
 ### what to use
 - we're gonna use shopify polaris and would be remove depedency step by step

@@ -9,6 +9,7 @@ import ProductDetail from '../ProductDetail';
 import InsertProducts from '../InsertProducts';
 import InsertProduct from '../InsertProduct';
 import Product from '../Product';
+import SellerDashboard from '../../components/SellerDashboard';
 
 const MainRoutes = () => {
   console.log("hihi mainroutes")
@@ -18,7 +19,8 @@ const MainRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/settings" element={<Settings />} />
-      <Route path="/products" element={<Product />} />
+      {/* <Route path="/products" element={<Product />} /> */}
+      <Route path="/products" element={<SellerDashboard />} />
       <Route path="/inventory" element={<Inventory />} />
       <Route path="/productDetail" element={<ProductDetail />} />
       <Route path="/insertProduct" element={<InsertProduct />} />
