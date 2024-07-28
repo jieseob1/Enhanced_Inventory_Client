@@ -10,3 +10,5 @@
 
 ### what to use
 - we're gonna use shopify polaris and would be remove depedency step by step
+
+### Features

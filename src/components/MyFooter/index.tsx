@@ -1,11 +1,9 @@
 // import React from 'react';
 // import {
 //   Button,
-//   Footer,
 //   Text,
 //   Link,
 //   FooterHelp,
-//   FooterBusinessInfo,
 //   LegacyStack,
 // } from '@shopify/polaris';
 
@@ -75,7 +73,12 @@
 //   );
 // }
 
-// const FooterLink = ({ children, url }) => (
+// interface FooterLinkProps {
+//   children: React.ReactNode;
+//   url: string;
+// }
+
+// const FooterLink = ({ children, url }: FooterLinkProps) => (
 //   <Link url={url} monochrome>
 //     {children}
 //   </Link>
