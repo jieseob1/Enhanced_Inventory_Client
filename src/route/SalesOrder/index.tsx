@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import Table from '../../components/common/Table';
+// import React, { useState, useEffect } from 'react';
 
-const SalesOrders = () => {
-  const [orders, setOrders] = useState([]);
+// const SalesOrders = () => {
+//   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    // Fetch sales orders from API
-    // setOrders(fetchedData);
-  }, []);
+//   useEffect(() => {
+//     // Fetch sales orders from API
+//     // setOrders(fetchedData);
+//   }, []);
 
-  const headers = ['Order ID', 'Customer', 'Date', 'Total Amount', 'Status'];
+//   const headers = ['Order ID', 'Customer', 'Date', 'Total Amount', 'Status'];
 
-  return (
-    <div>
-      <h1>Sales Orders</h1>
-      <Table headers={headers} data={orders} />
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <h1>Sales Orders</h1>
+//       <Table headers={headers} data={orders} />
+//     </div>
+//   );
+// };
