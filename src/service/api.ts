@@ -9,8 +9,8 @@ const api = axios.create({
 
 
 export const getExpectedReceipts = () => api.get('/expected-receipts');
-export const createReceipt = (receipt) => api.post('/receipts', receipt);
-export const updateInspection = (id, inspection) => api.put(`/receipts/${id}/inspection`, inspection);
-export const updateLabeling = (id, labeling) => api.put(`/receipts/${id}/labeling`, labeling);
+export const createReceipt = (receipt: any) => api.post('/receipts', receipt);
+export const updateInspection = (id: number, inspection: any) => api.put(`/receipts/${id}/inspection`, inspection);
+export const updateLabeling = (id: number, labeling: string) => api.put(`/receipts/${id}/labeling`, labeling);
 
 export default api;
