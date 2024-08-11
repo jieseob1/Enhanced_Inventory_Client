@@ -37,7 +37,7 @@ const App: React.FC = () => {
                   topBar={
                     //이 부분 분리 해야됨 mainroutes내부까지 prop drilling되서 console.log 찍히는 중
                     <Header
-                      onToggle={function (): void {
+                      onToggle={function (): void { // handleOnToggle로 변경
                         console.log("hello");
                       }}
                     />}
@@ -45,6 +45,7 @@ const App: React.FC = () => {
                     <AppNavigation />
                   }
                 >
+                  {/* AuthRoute 추가 */}
                   <MainRoutes />
                 </Frame>
               }
