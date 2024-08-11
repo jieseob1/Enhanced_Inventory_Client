@@ -5,7 +5,7 @@ export interface Receipt {
   id: number;
   receiptData: string; //LocalDateTime
   size: string;
-  temperatrueCondition: string;
+  temperatureCondition: string;
   status: string;
   expectedReceipt: ExpectedReceipt; // 예상 입고와 연관된 식별자
   receiptItems: ReceiptItem[]

@@ -7,31 +7,26 @@ const api = axios.create({
 });
 
 
-export const getExpectedReceipts = async (): Promise<ExpectedReceipt[]> => {
+const handleApiCall = async <T>(apiCall: Promise<{ data: T }>): Promise<T> => {
   try {
-    const response = await api.get<ExpectedReceipt[]>('/expected-receipts');
+    const response = await apiCall;
     return response.data;
   } catch (error) {
-    console.error('Error fetching expected receipts:', error);
+    console.error('API call error:', error);
     throw error;
   }
-}
-export const createReceipt = async (receipt: Receipt): Promise<void> => {
-  try {
-    await api.post('/receipts', receipt)
-  } catch (error) {
-    console.error('Error creating receipt:', error);
-    throw error;
-  }
-
 };
-export const getReceipts = async (): Promise<Receipt[]> => {
-  try {
-    const response = await api.get<Receipt[]>('/receipts');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching receipts:', error);
-    throw error;
-  }
+
+export const getExpectedReceipts = async (): Promise<ExpectedReceipt[]> => {
+  return handleApiCall(api.get<ExpectedReceipt[]>('/expected-receipts'));
 }
+
+export const createReceipt = async (receipt: Receipt): Promise<void> => {
+  await handleApiCall(api.post('/receipts', receipt));
+}
+
+export const getReceipts = async (): Promise<Receipt[]> => {
+  return handleApiCall(api.get<Receipt[]>('/receipts'));
+}
+
 export default api;
