@@ -11,6 +11,7 @@ import InsertProduct from '../InsertProduct';
 import Product from '../Product';
 import SellerDashboard from '../../components/SellerDashboard';
 import InventoryManagement from '../InventoryManagement';
+import PurchaseOrderForm from '@/components/PurchaseOrderForm';
 
 const MainRoutes = () => {
   console.log("hihi mainroutes")
@@ -27,6 +28,7 @@ const MainRoutes = () => {
       <Route path="/productDetail" element={<ProductDetail />} />
       <Route path="/insertProduct" element={<InsertProduct />} />
       <Route path="/insertProducts" element={<InsertProducts />} />
+      <Route path="/create-purchase-order" element={<PurchaseOrderForm />} />
     </Routes>
   )
 };
