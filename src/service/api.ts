@@ -1,16 +1,37 @@
-// 추후 service split 관련 고민
-//Receipt Relate API => 입고
-
+import { ExpectedReceipt } from "@/types/expectedReceipt";
+import { Receipt } from "@/types/Receipt";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api'
-}); // 추후 process.env 써서 환경변수로 변경
+  baseURL: process.env.BASE_URL || 'http://localhost:8080/api'
+});
 
 
-export const getExpectedReceipts = () => api.get('/expected-receipts');
-export const createReceipt = (receipt: any) => api.post('/receipts', receipt);
-export const updateInspection = (id: number, inspection: any) => api.put(`/receipts/${id}/inspection`, inspection);
-export const updateLabeling = (id: number, labeling: string) => api.put(`/receipts/${id}/labeling`, labeling);
+export const getExpectedReceipts = async (): Promise<ExpectedReceipt[]> => {
+  try {
+    const response = await api.get<ExpectedReceipt[]>('/expected-receipts');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching expected receipts:', error);
+    throw error;
+  }
+}
+export const createReceipt = async (receipt: Receipt): Promise<void> => {
+  try {
+    await api.post('/receipts', receipt)
+  } catch (error) {
+    console.error('Error creating receipt:', error);
+    throw error;
+  }
 
+};
+export const getReceipts = async (): Promise<Receipt[]> => {
+  try {
+    const response = await api.get<Receipt[]>('/receipts');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching receipts:', error);
+    throw error;
+  }
+}
 export default api;
