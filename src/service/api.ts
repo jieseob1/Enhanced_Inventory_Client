@@ -1,5 +1,5 @@
-import { ExpectedReceipt } from "@/types/expectedReceipt";
-import { Receipt } from "@/types/Receipt";
+import { ExpectedReceipt } from "../types/expectedReceipt";
+import { Receipt } from "../types/receipt";
 import axios from "axios";
 
 const api = axios.create({
